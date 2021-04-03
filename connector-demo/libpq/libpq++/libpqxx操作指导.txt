@@ -1,0 +1,84 @@
+
+libpqxx7.4.1编译、安装、对表的增删查改总结
+
+
+第1步：在txadmin用户下编译libpqxx源码
+a. 解压源码
+tar xvzf libpqxx-7.4.1.tar.gz
+
+b. 创建目录 
+ mkdir -p /usr/local/libpq
+ chown txadmin:txadmin -R /usr/local/libpq
+ 
+c. 在txadmin用户下,执行
+./configure --prefix=/usr/local/libpq --enable-shared
+
+d. 编译、安装
+make && make install
+
+第2步：设置环境变量
+修改/home/txadmin/.bash_profile
+export LD_LIBRARY_PATH=/usr/local/libpq/lib:$PGHOME/lib:$LD_LIBRARY_PATH
+source /home/txadmin/.bash_profile
+
+第3步：
+编译自定义程序
+ g++ -o occi libpqxxonline.cpp -lpqxx -I /usr/local/libpq/include -std=c++17 -L /usr/local/libpq/lib
+ 
+第4步：
+增删查改验证
+ a. 启动occi
+ ./occi
+welcome to use OCCI interface!
+connection success!
+connection information is:
+dbname=txdb_default user=stxadmin password=txadmin@123      hostaddr=127.0.0.1 port=6869
+please input your operation, support operation is: 0(CREATE TABLE), 1(INSERT), 2(UPDATE), 3(DELETE), 4(SELECT), 5(quit):
+
+
+b.按照提示输入用户的目标指令
+please input your operation, support operation is: 0(CREATE TABLE), 1(INSERT), 2(UPDATE), 3(DELETE), 4(SELECT), 5(quit): 0  //建表
+please input your sql according to your choice:
+create table tb(a int,b int,c text) 
+create table success
+please input your operation, support operation is: 0(CREATE TABLE), 1(INSERT), 2(UPDATE), 3(DELETE), 4(SELECT), 5(quit): 1   //插入
+please input your sql according to your choice:
+insert into tb values(1,2,'liua'),(2,3,'lifei') 
+insert success
+please input your operation, support operation is: 0(CREATE TABLE), 1(INSERT), 2(UPDATE), 3(DELETE), 4(SELECT), 5(quit): 4    //查询
+please input your sql according to your choice:
+select * from tb
+| a | b | c 
+------------------------
+| 1 | 2 | liua 
+| 2 | 3 | lifei 
+please input your operation, support operation is: 0(CREATE TABLE), 1(INSERT), 2(UPDATE), 3(DELETE), 4(SELECT), 5(quit): 2      //更新
+please input your sql according to your choice:
+update tb set c='liming' where a=1
+update success
+please input your operation, support operation is: 0(CREATE TABLE), 1(INSERT), 2(UPDATE), 3(DELETE), 4(SELECT), 5(quit): 4
+please input your sql according to your choice:
+select * from tb
+| a | b | c 
+------------------------
+| 2 | 3 | lifei 
+| 1 | 2 | liming 
+please input your operation, support operation is: 0(CREATE TABLE), 1(INSERT), 2(UPDATE), 3(DELETE), 4(SELECT), 5(quit): 3      //删除
+please input your sql according to your choice:
+delete from tb where a=2
+delete success
+please input your operation, support operation is: 0(CREATE TABLE), 1(INSERT), 2(UPDATE), 3(DELETE), 4(SELECT), 5(quit): 4
+please input your sql according to your choice:
+select * from tb
+| a | b | c 
+------------------------
+| 1 | 2 | liming 
+please input your operation, support operation is: 0(CREATE TABLE), 1(INSERT), 2(UPDATE), 3(DELETE), 4(SELECT), 5(quit): 5    //退出
+exit success
+
+
+
+
+参考链接
+https://libpqxx.readthedocs.io/en/7.4.1/a01078.html#afa893fbcb5231361de3ef5bf368585dc
+

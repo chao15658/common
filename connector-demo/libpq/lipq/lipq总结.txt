@@ -1,0 +1,67 @@
+lipq总结
+
+编译程序
+gcc -I /usr/stxdb4.0/include -o oci libpqonline.c  -L /usr/stxdb4.0/lib -lpq
+
+
+
+使用程序进行增删查改
+[stxadmin@node0 ~]$ ./oci 
+welcome to use OCI interface!
+connection information is: host=localhost port=6868 dbname=txdb_default connect_timeout=10
+please input your operation, support operation is: 0(CREATE TABLE), 1(INSERT), 2(UPDATE), 3(DELETE), 4(SELECT), 5(quit): 0
+please input your sql according to your choice:
+create table test1(a int,b text) 
+create table success
+please input your operation, support operation is: 0(CREATE TABLE), 1(INSERT), 2(UPDATE), 3(DELETE), 4(SELECT), 5(quit): 1
+please input your sql according to your choice:
+insert into test1 values(1,'lihua'),(2,'lifei')
+insert success
+please input your operation, support operation is: 0(CREATE TABLE), 1(INSERT), 2(UPDATE), 3(DELETE), 4(SELECT), 5(quit): 4
+please input your sql according to your choice:
+select * from test1
+|a     |b     
+----------------
+|1     |lihua 
+|2     |lifei 
+[stxadmin@node0 ~]$ ./oci
+welcome to use OCI interface!
+connection information is: host=localhost port=6868 dbname=txdb_default connect_timeout=10
+please input your operation, support operation is: 0(CREATE TABLE), 1(INSERT), 2(UPDATE), 3(DELETE), 4(SELECT), 5(quit): 0     //建表
+please input your sql according to your choice:
+create table test1(a int,b text) 
+create table success
+please input your operation, support operation is: 0(CREATE TABLE), 1(INSERT), 2(UPDATE), 3(DELETE), 4(SELECT), 5(quit): 1       //插入
+please input your sql according to your choice:
+insert into test1 values(1,'lihua'),(2,'lifei')
+insert success
+please input your operation, support operation is: 0(CREATE TABLE), 1(INSERT), 2(UPDATE), 3(DELETE), 4(SELECT), 5(quit): 4       //查询
+please input your sql according to your choice:
+select * from test1
+|a     |b     
+----------------
+|1     |lihua 
+|2     |lifei 
+please input your operation, support operation is: 0(CREATE TABLE), 1(INSERT), 2(UPDATE), 3(DELETE), 4(SELECT), 5(quit): 2        //更新
+please input your sql according to your choice:
+update test1 set b='liming' where a=1
+update success
+please input your operation, support operation is: 0(CREATE TABLE), 1(INSERT), 2(UPDATE), 3(DELETE), 4(SELECT), 5(quit): 4
+please input your sql according to your choice:
+select * from test1
+|a     |b     
+----------------
+|2     |lifei 
+|1     |liming 
+please input your operation, support operation is: 0(CREATE TABLE), 1(INSERT), 2(UPDATE), 3(DELETE), 4(SELECT), 5(quit): 3          //删除
+please input your sql according to your choice:
+delete from test1 where a=2
+delete success
+please input your operation, support operation is: 0(CREATE TABLE), 1(INSERT), 2(UPDATE), 3(DELETE), 4(SELECT), 5(quit): 4
+please input your sql according to your choice:
+select * from test1
+|a     |b     
+----------------
+|1     |liming 
+please input your operation, support operation is: 0(CREATE TABLE), 1(INSERT), 2(UPDATE), 3(DELETE), 4(SELECT), 5(quit): 5           //退出
+exit success

@@ -1,0 +1,35 @@
+1、配置环境变量，修改/etc/profile,将自定义程序需要的lib库路径增加到LD_LIBRARY_PATH
+export ORACLE_SID=orc将自定义程序需要的lib库路径增加到LD_LIBRARY_PATHl
+export ORACLE_HOME=/u01/app/oracle/product/11.2.0
+export TNS_ADMIN=$ORACLE_HOME/NETWORK/ADMIN
+export LD_LIBRARY_PATH=/u01/app/oracle/product/11.2.0/db_1/lib:$LD_LIBRARY_PATH
+export SQLPATH=$ORACLE_HOME
+export NLS_LANG=AMERICAN_AMERICA.ZHS16GBK
+export PATH=$PATH:$ORACLE_HOME/db_1/bin
+
+2、配置生效
+source /etc/profile
+
+3、为libclntsh在/usr/local/lib下创建软连接
+ln -s /u01/app/oracle/product/11.2.0/db_1/lib/libclntsh.so.11.1 /usr/local/lib/libclntsh.so
+
+可解决如下问题：
+ldd oci
+	linux-vdso.so.1 =>  (0x00007ffe6b539000)
+	libclntsh.so.11.1 => not found
+	libstdc++.so.6 => /lib64/libstdc++.so.6 (0x00007f3b7f9a8000)
+	libm.so.6 => /lib64/libm.so.6 (0x00007f3b7f6a6000)
+	libgcc_s.so.1 => /lib64/libgcc_s.so.1 (0x00007f3b7f490000)
+	libc.so.6 => /lib64/libc.so.6 (0x00007f3b7f0c2000)
+	/lib64/ld-linux-x86-64.so.2 (0x00007f3b7fcb0000)
+
+3、编译occi、oci
+[oracle@node1 chao_20210225]$ g++ -I /u01/app/oracle/product/11.2.0/db_1/rdbms/public -o occi occi.cpp  -I${ORACLE_HOME}/rdbms/demo -L${ORACLE_HOME}/lib -lclntsh -Wl,-Bdynamic -locci
+   
+[oracle@node1 chao_20210225]$ g++ -I /u01/app/oracle/product/11.2.0/db_1/rdbms/public -o oci oci.cpp  -I${ORACLE_HOME}/rdbms/demo -L${ORACLE_HOME}/lib -lclntsh -Wl,-Bdynamic
+
+
+注意：
+oci链接oracle报错
+OCIEnvCreate返回-1
+解决办法:将生成的可执行程序拷贝至oracle用户目录下，并授权

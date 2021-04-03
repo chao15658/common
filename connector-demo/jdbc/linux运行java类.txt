@@ -1,0 +1,75 @@
+
+
+1. 解压压缩包
+tar xvzf JAVA-connector-txdb.tar.gz
+
+2. 编译java程序(如果存在.class，则省去该步骤)
+ javac MySqlTest.java 
+ 
+3. 运行(-cp必须指定绝对路径)
+java -cp /home/txadmin/jdbc-conndemo/txdb-4.0.jar:. MySqlTest
+
+
+4.执行测试：
+Welcome to use JAVA-connect-postgresql-demo,your program's connection info is listed below
+driver name :org.txdb.Driver
+url :jdbc:txdb://127.0.0.1:6868/txdb_default
+username :txadmin
+password :txadmin@123
+please input your operation, support operation is: 0(CREATE TABLE), 1(INSERT), 2(UPDATE), 3(DELETE), 4(SELECT), 5(quit): 
+0
+please input your sql according to your choice
+create table xl(id int,name text);
+create table success
+please input your operation, support operation is: 0(CREATE TABLE), 1(INSERT), 2(UPDATE), 3(DELETE), 4(SELECT), 5(quit): 
+4
+please input your sql according to your choice
+select * from xl;
+ id | name |
+----------------
+please input your operation, support operation is: 0(CREATE TABLE), 1(INSERT), 2(UPDATE), 3(DELETE), 4(SELECT), 5(quit): 
+1
+please input your sql according to your choice
+insert into xl values(1,'liming'),(2,'lihua');
+insert success
+please input your operation, support operation is: 0(CREATE TABLE), 1(INSERT), 2(UPDATE), 3(DELETE), 4(SELECT), 5(quit): 
+4
+please input your sql according to your choice
+select * from xl;
+ id | name |
+----------------
+1   |    liming   |    
+2   |    lihua   |    
+1   |    liming   |    
+2   |    lihua   |    
+please input your operation, support operation is: 0(CREATE TABLE), 1(INSERT), 2(UPDATE), 3(DELETE), 4(SELECT), 5(quit): 
+2
+please input your sql according to your choice
+update xl set id=10 where name='liming'; 
+update success
+please input your operation, support operation is: 0(CREATE TABLE), 1(INSERT), 2(UPDATE), 3(DELETE), 4(SELECT), 5(quit): 
+4
+please input your sql according to your choice
+select * from xl;
+ id | name |
+----------------
+2   |    lihua   |    
+2   |    lihua   |    
+10   |    liming   |    
+10   |    liming   |    
+please input your operation, support operation is: 0(CREATE TABLE), 1(INSERT), 2(UPDATE), 3(DELETE), 4(SELECT), 5(quit): 
+3
+please input your sql according to your choice
+delete from xl where id=2; 
+delete success
+please input your operation, support operation is: 0(CREATE TABLE), 1(INSERT), 2(UPDATE), 3(DELETE), 4(SELECT), 5(quit): 
+4
+please input your sql according to your choice
+select * from xl;
+ id | name |
+----------------
+10   |    liming   |    
+10   |    liming   |    
+please input your operation, support operation is: 0(CREATE TABLE), 1(INSERT), 2(UPDATE), 3(DELETE), 4(SELECT), 5(quit): 
+5
+quit success
