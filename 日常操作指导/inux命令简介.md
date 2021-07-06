@@ -234,3 +234,10 @@ nmon使用
 采集10次，每隔2s,数据采集到.nmon文件中。
 
 nmon_analyse
+
+
+
+**批量kill进程**
+
+ps -ef|grep cc|awk '{print $2}'|xargs kill -9
+
